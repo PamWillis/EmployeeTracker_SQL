@@ -7,27 +7,6 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 var uniqid = require("uniqid");
 
-
-//to make promises asynchronous example
-// async function example1 () {
-//     const mysql = require('mysql2/promise');
-//     const conn = await mysql.createConnection({ database: test });
-//     const [rows, fields] = await conn.execute('select ?+? as sum', [2, 2]);
-//     await conn.end();
-//   }
-
-//   async function example2 () {
-//     const mysql = require('mysql2/promise');
-//     const pool = mysql.createPool({database: test});
-//     // execute in parallel, next console.log in 3 seconds
-//     await Promise.all([pool.query('select sleep(2)'), pool.query('select sleep(3)')]);
-//     console.log('3 seconds after');
-//     await pool.end();
-//   }
-
-// Connect to database
-
-
 // Create a department
 app.post('/api/employeeTracker', ({ body }, res) => {
   const sql = `INSERT INTO department (department_name)
