@@ -1,10 +1,10 @@
 const inquirer = require(`inquirer`);
 const fs = require('fs');
-const mysql = require('mysql2');
-const connections = require('/connections.js')
+const connections = require("./config/connection");
 
 
 
+initMenu();
 
 // This will initiate the prompts function
 
@@ -142,7 +142,7 @@ function continues() {
         startPrompt();
     });
 };
-function quit() {
+function quits() {
     db.query((err, results) => {
         if (err) {
             throw err;

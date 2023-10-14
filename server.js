@@ -1,7 +1,7 @@
 const express = require('express');
 const deptApiRoutes = require('./route/deptApiRoute');
 const mysql = require('mysql2');
-const connections = require('../public/connections.js')
+const connections = require('./config/connection.js')
 
 const app = express();
 const PORT = process.env.PORT || 3001;
