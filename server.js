@@ -2,7 +2,7 @@ const inquirer = require(`inquirer`);
 const fs = require('fs');
 const mysql = require('mysql2');
 const db = require("./config/connection");
-var employeeTracker_db = require('mysql2-promise')();
+
 
 
 
@@ -65,88 +65,75 @@ function initMenu() {
 }
 
 //view departments
-    employeeTracker_db.execute('SELECT * FROM department').spread(viewDepartments(department) {
-        console.log(department);  
-    });
+async function viewDepartments() {
+    const sql = 'SELECT * FROM department';
+    const results = await db.promise().query(sql);
+    console.department(result);
+    startPrompt();
+};
 
 //view roles
-function viewRoles() {
+async function viewRoles() {
     const sql = 'SELECT * FROM role';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.role(result);
-        startPrompt();
-    });
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function viewEmployees() {
-    const sql = 'SELECT * FROM employee';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.employee(result);
-        startPrompt();
-    });
+
+//view employees
+async function viewEmployees() {
+    const sql = 'SELECT * FROM employees';
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function addDepartment() {
+
+//view role
+async function viewRoles() {
     const sql = 'INSERT INTO department';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.department(result);
-        startPrompt();
-    });
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function addRole() {
+
+//add a role
+async function addRole() {
     const sql = 'INSERT INTO role';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.role(result);
-        startPrompt();
-    });
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function addEmployee() {
+
+//add a employee
+async function addEmployee() {
     const sql =
         'INSERT INTO employee VALUES (first_name, last_name, title, department, salary, manager';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.employee(results);
-        startPrompt();
-    });
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function updateEmployeeRole() {
+
+//update a employee role     
+async function updateEmployeeRole() {
     const sql =
         'UPDATE table_employee SET role WHERE role';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.employee(results);
-        startPrompt();
-    });
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function continues() {
-    db.query((err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.continues(results);
-        startPrompt();
-    });
+
+//to continue?     
+async function continues() {
+    const results = await db.promise().query(sql);
+    console.role(result);
+    startPrompt();
 };
-function quits() {
-    db.query((err, results) => {
-        if (err) {
-            throw err;
-        };
-        return results = "Ending Employee Tracker, enjoy your day"
-    });
+
+// end     
+async function quits() {
+    const results = await db.promise().query(sql);
+    console.role(result);
+    return results = "Ending Employee Tracker, enjoy your day"
 };
+
 

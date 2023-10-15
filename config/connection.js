@@ -1,15 +1,16 @@
-const mysql = require('mysql2');
+const mysql = require("mysql2");
 
-var employeeTracker_db = require('mysql2-promise')();
+const connection = mysql.createConnection({
+  host: "localhost",
+  // Your username
+  user: "root",
+  // Your password
+  password: "pw37,R2!",
+  database: "employeeTracker_db"
+});
 
-employeeTracker_db.configure({
-  host: 'localhost',
-  // MySQL username,
-  user: 'root',
-  // TODO: Add MySQL password here
-  password: 'pw37,R2!',
-  database: 'employeeTracker_db'
-},
-  console.log(`Connected to the employee_tracker database.`)
-);
+connection.connect(function (err) {
+  if (err) throw err;
+});
 
+module.exports = connection;
