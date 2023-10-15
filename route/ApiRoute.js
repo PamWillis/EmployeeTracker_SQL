@@ -7,8 +7,8 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 var uniqid = require("uniqid");
 
-// Create a department
-app.post('/api/employeeTracker', ({ body }, res) => {
+// post answers
+app.post('/api/employee_tracker_db', ({ body }, res) => {
   const sql = `INSERT INTO department (department_name)
     VALUES (?)`;
   const params = [body.department_name];
@@ -25,8 +25,8 @@ app.post('/api/employeeTracker', ({ body }, res) => {
   });
 });
 
-// Read all departments
-app.get('/api/employeeTracker', (req, res) => {
+// Read answers
+app.get('/api/employee_tracker_db', (req, res) => {
   const sql = `SELECT id, department_name AS name FROM department`;
 
   db.query(sql, (err, rows) => {
@@ -41,8 +41,8 @@ app.get('/api/employeeTracker', (req, res) => {
   });
 });
 
-// Delete a dept_name
-app.delete('/api/department_name/:id', (req, res) => {
+// Delete answers
+app.delete('/api/employee_tracker_db', (req, res) => {
   const sql = `DELETE name FROM department WHERE id = ?`;
   const params = [req.params.id];
 

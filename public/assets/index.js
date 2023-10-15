@@ -1,6 +1,10 @@
 const inquirer = require(`inquirer`);
 const fs = require('fs');
+const mysql = require('mysql2');
 const connections = require("./config/connection");
+const path = require('path');
+const absolutePath = path.join(__dirname, 'db', 'schema.sql');
+
 
 
 
