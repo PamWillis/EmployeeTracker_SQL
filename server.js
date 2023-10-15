@@ -2,6 +2,9 @@ const inquirer = require(`inquirer`);
 const fs = require('fs');
 const mysql = require('mysql2');
 const db = require("./config/connection");
+var employeeTracker_db = require('mysql2-promise')();
+
+
 
 
 initMenu();
@@ -61,17 +64,12 @@ function initMenu() {
         });
 }
 
-function viewDepartments() {
-    const sql = 'SELECT * FROM department';
-    db.query(sql, (err, results) => {
-        if (err) {
-            throw err;
-        };
-        console.department(result);
-        startPrompt();
+//view departments
+    employeeTracker_db.execute('SELECT * FROM department').spread(viewDepartments(department) {
+        console.log(department);  
     });
-};
 
+//view roles
 function viewRoles() {
     const sql = 'SELECT * FROM role';
     db.query(sql, (err, results) => {
