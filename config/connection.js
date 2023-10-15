@@ -1,6 +1,6 @@
 const mysql = require('mysql2');
 
-// Connect to database
+// Connect to database asynchronize (await)
 const connections = mysql.createConnection(
     {
       host: 'localhost',
