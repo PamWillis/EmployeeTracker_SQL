@@ -1,7 +1,6 @@
 const express = require('express');
-const deptApiRoutes = require('./route/deptApiRoute');
-const mysql = require('mysql2');
-const connections = require('./config/connection.js')
+const apiRoute = require('./route/apiRoute');
+
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,7 +8,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use('/api', deptApiRoutes);
+app.use('/api', apiRoute);
 
 // Express middleware
 app.use(express.urlencoded({ extended: false }));

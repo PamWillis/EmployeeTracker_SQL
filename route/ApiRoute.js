@@ -1,19 +1,18 @@
 const express = require('express');
 // Import and require mysql2
 const mysql = require('mysql2');
-const db = require('../config/connection.js');
+const connections = require('../config/connection.js');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 var uniqid = require("uniqid");
 
 // post answers
-app.post('/api/employee_tracker_db', ({ body }, res) => {
-  const sql = `INSERT INTO department (department_name)
-    VALUES (?)`;
+app.post('/api/employeeTracker_db', ({ body }, res) => {
+  const sql = (answer);
   const params = [body.department_name];
 
-  db.query(sql, params, (err, result) => {
+  db.query(params, (err, result) => {
     if (err) {
       res.status(400).json({ error: err.message });
       return;
@@ -26,8 +25,8 @@ app.post('/api/employee_tracker_db', ({ body }, res) => {
 });
 
 // Read answers
-app.get('/api/employee_tracker_db', (req, res) => {
-  const sql = `SELECT id, department_name AS name FROM department`;
+app.get('/api/employeeTracker_db', (req, res) => {
+  const sql = (answers);
 
   db.query(sql, (err, rows) => {
     if (err) {
@@ -42,11 +41,11 @@ app.get('/api/employee_tracker_db', (req, res) => {
 });
 
 // Delete answers
-app.delete('/api/employee_tracker_db', (req, res) => {
+app.delete('/api/employeeTracker_db', (req, res) => {
   const sql = `DELETE name FROM department WHERE id = ?`;
   const params = [req.params.id];
 
-  db.query(sql, params, (err, result) => {
+  db.query(params, (err, result) => {
     if (err) {
       res.statusMessage(400).json({ error: res.message });
     } else if (!result.affectedRows) {
@@ -63,10 +62,9 @@ app.delete('/api/employee_tracker_db', (req, res) => {
   });
 });
 
-// Read list of all Departments and associated department_name
-app.get('/api/department_name', (req, res) => {
-  const sql = `SELECT department AS department_id, department_name`;
-  db.query(sql, (err, rows) => {
+// Read l
+app.get('/api/employeeTracker_db', (req, res) => {
+  db.query((err, rows) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;

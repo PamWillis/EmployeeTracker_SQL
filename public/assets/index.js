@@ -2,10 +2,6 @@ const inquirer = require(`inquirer`);
 const fs = require('fs');
 const mysql = require('mysql2');
 const connections = require("./config/connection");
-const path = require('path');
-const absolutePath = path.join(__dirname, 'db', 'schema.sql');
-
-
 
 
 initMenu();
@@ -123,7 +119,7 @@ function addEmployee() {
         if (err) {
             throw err;
         };
-        console.employee(result);
+        console.employee(results);
         startPrompt();
     });
 };
@@ -134,7 +130,7 @@ function updateEmployeeRole() {
         if (err) {
             throw err;
         };
-        console.employee(result);
+        console.employee(results);
         startPrompt();
     });
 };
@@ -143,6 +139,7 @@ function continues() {
         if (err) {
             throw err;
         };
+        console.continues(results);
         startPrompt();
     });
 };
@@ -151,9 +148,10 @@ function quits() {
         if (err) {
             throw err;
         };
-        return "Ending Employee Tracker, enjoy your day"
+        return results = "Ending Employee Tracker, enjoy your day"
     });
 };
+
 
 
 
