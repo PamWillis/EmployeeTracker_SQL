@@ -1,4 +1,3 @@
-CREATE VIEW dept_view
-AS
-SELECT * 
-FROM department;
+USE employeeTracker_db;
+
+SELECT * FROM department;

@@ -1,9 +1,10 @@
 const inquirer = require(`inquirer`);
-// const db = require("./assets/db/index.js");
+
 const logo = require('asciiart-logo');
 // const connection = require("./config/connection.js")
 const mysql = require("mysql2");
 const db = require("./config/connection");
+
 
 
 
@@ -65,9 +66,9 @@ function initMenu() {
       //view departments
       async function viewDepartments() {
         // CREATE VIEW dept_view AS 
-        const sql = 'SELECT * FROM department';
-        const result = await db.promise().query(sql);
-        console.table(result);
+        const allDept = "SELECT * FROM department;"
+        const result = await db.promise().query(allDept);
+        console.log(result);
 
         initMenu();
       };
