@@ -1,139 +1,111 @@
 const inquirer = require(`inquirer`);
-const fs = require('fs');
-const mysql = require('mysql2');
-const db = require("./config/connection");
+const db = require("./db");
+const logo = require('asciiart-logo');
+
+init();
+
+//create logo to display
+function init() {
+    const logoText = logo({
+        name: "Company Employee Manager"
+    }).render();
+
+    console.log(logoText);
+
+    //starts prompts
+    loadMainPrompts();
+}
 
 
-
-
-
-initMenu();
-
-// This will initiate the prompts function
-
-function initMenu() {
+//functions for prompts
+function loadMainPrompts() {
     inquirer.prompt([
         {
-            name: "menu",
             type: "list",
-            message: "What would you like to do",
-            choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role"]
-        },
-        {
-            name: "continues",
-            type: "list",
-            message: "Would you like to continue",
-            choices: ["continue", "quit"]
+            name: "choice",
+            message: "What would you like to do?",
+            choices: [
+
+                {
+                    name: "view all departments",
+                    value: "VIEW_DEPARTMENTS"
+                },
+                {
+                    name: "view all employees",
+                    value: "VIEW_EMPLOYEES"
+                },
+                {
+                    name: "view all roles",
+                    value: "VIEW_ROLES"
+                },
+
+                {
+                    name: "add a role",
+                    value: "ADD_ROLES"
+                },
+                {
+                    name: "add an employee",
+                    value: "ADD_EMPLOYEE"
+                },
+                {
+                    name: "update an employee role",
+                    value: "UPDATE_EMPLOYEE_ROLE"
+                },
+                {
+                    name: "delete an employee",
+                    value: "REMOVE_EMPLOYEE"
+                },
+                {
+                    name: "quit",
+                    value: "QUIT"
+                },
+
+            ]
         }
     ])
-        .then((answers) => {
-            switch (answers.menu) {
-                case "view all departments":
+        .then(res => {
+            let choice = res.choice;
+            //call the proper function according to what is chosen
+            switch (choice) {
+                case "VIEW_DEPARTMENTS":
                     viewDepartments();
                     break;
-                case "view all roles":
-                    viewRoles();
-                    break;
-                case "view all employees":
+                case "VIEW_EMPLOYEES":
                     viewEmployees();
                     break;
-                case "add a department":
-                    addDepartment();
+                case "VIEW_ROLES":
+                    viewRoles();
                     break;
-                case "add a role":
-                    addRole();
+                case "ADD_ROLES":
+                    addRoles();
                     break;
-                case "add an employee":
+                case "ADD_EMPLOYEE":
                     addEmployee();
                     break;
-                case "update an employee role":
+                case "UPDATE_EMPLOYEE_ROLE":
                     updateEmployeeRole();
                     break;
-                case "Would you like to continue":
-                    continueorEnd();
-            }
-
-            switch (answers.continue) {
-                case "continue":
-                    continues();
+                case "QUIT":
+                    quit();
                     break;
-                case "quit":
-                    quits();
-
             }
+        })
+    // .catch(err => console.error(err));
+}
+
+//coming from db helper
+
+//VIEW EMPLOYEES
+function viewDepartments() {
+    db.findAllDepartments()
+        .then(([rows]) => {
+            let departments = rows;
+            const departmentChoices = departments.map(({ id, department })({
+                name: department,
+                value: id
+            }));
         });
 }
 
-//view departments
-async function viewDepartments() {
-    const sql = 'SELECT * FROM department';
-    const results = await db.promise().query(sql);
-    console.department(result);
-    startPrompt();
-};
-
-//view roles
-async function viewRoles() {
-    const sql = 'SELECT * FROM role';
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-//view employees
-async function viewEmployees() {
-    const sql = 'SELECT * FROM employees';
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-//view role
-async function viewRoles() {
-    const sql = 'INSERT INTO department';
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-//add a role
-async function addRole() {
-    const sql = 'INSERT INTO role';
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-//add a employee
-async function addEmployee() {
-    const sql =
-        'INSERT INTO employee VALUES (first_name, last_name, title, department, salary, manager';
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-//update a employee role     
-async function updateEmployeeRole() {
-    const sql =
-        'UPDATE table_employee SET role WHERE role';
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-//to continue?     
-async function continues() {
-    const results = await db.promise().query(sql);
-    console.role(result);
-    startPrompt();
-};
-
-// end     
-async function quits() {
-    const results = await db.promise().query(sql);
-    console.role(result);
-    return results = "Ending Employee Tracker, enjoy your day"
-};
-
+//need to do more complicated ones, some had prompts ie Employee by manager
 
