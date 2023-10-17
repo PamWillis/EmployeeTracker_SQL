@@ -3,124 +3,128 @@ const inquirer = require(`inquirer`);
 const logo = require('asciiart-logo');
 // const connection = require("./config/connection.js")
 const mysql = require("mysql2");
-
-const connection = mysql.createConnection({
-  host: "localhost",
-  // Your username
-  user: "root",
-  // Your password
-  password: "pw37,R2!",
-  database: "employeeTracker_db"
-});
-
-connection.connect(function (err) {
-  if (err) throw err;
-});
+const db = require("./config/connection");
 
 
+// create logo to display
+function init() {
+  const logoText = logo({
+    name: "Company Employee Manager"
+  }).render();
 
-//create logo to display
-// function init() {
-//     const logoText = logo({
-//         name: "Company Employee Manager"
-//     }).render();
+  console.log(logoText);
 
-//     console.log(logoText);
-
-//     //starts prompts
-//     loadMainPrompts();
-// }
+  //starts prompts
+  loadMainPrompts();
+}
 
 
 // //functions for prompts
-// function loadMainPrompts() {
-//     inquirer.prompt([
-//         {
-//             type: "list",
-//             name: "choice",
-//             message: "What would you like to do?",
-//             choices: [
+function initMenu() {
+  inquirer.prompt([
+    {
+      name: "menu",
+      type: "list",
+      message: "What would you like to do",
+      choices: ["view all departments", "view all roles", "view all employees", "add a department", "add a role", "add an employee", "update an employee role", "quit"]
+    },
 
-//                 {
-//                     name: "view all departments",
-//                     value: "VIEW_DEPARTMENTS"
-//                 },
-//                 {
-//                     name: "view all employees",
-//                     value: "VIEW_EMPLOYEES"
-//                 },
-//                 {
-//                     name: "view all roles",
-//                     value: "VIEW_ROLES"
-//                 },
+  ])
+    .then((answers) => {
+      switch (answers.menu) {
+        case "view all departments":
+          viewDepartments();
+          break;
+        case "view all roles":
+          viewRoles();
+          break;
+        case "view all employees":
+          viewEmployees();
+          break;
+        case "add a department":
+          addDepartment();
+          break;
+        case "add a role":
+          addRole();
+          break;
+        case "add an employee":
+          addEmployee();
+          break;
+        case "update an employee role":
+          updateEmployeeRole();
+          break;
+        case "Would you like to continue":
+          continueorEnd();
+          break;
+        case "quit":
+          quit();
+      }
 
-//                 {
-//                     name: "add a role",
-//                     value: "ADD_ROLES"
-//                 },
-//                 {
-//                     name: "add an employee",
-//                     value: "ADD_EMPLOYEE"
-//                 },
-//                 {
-//                     name: "update an employee role",
-//                     value: "UPDATE_EMPLOYEE_ROLE"
-//                 },
-//                 {
-//                     name: "delete an employee",
-//                     value: "REMOVE_EMPLOYEE"
-//                 },
-//                 {
-//                     name: "quit",
-//                     value: "QUIT"
-//                 },
 
-//             ]
-//         }
-//     ])
-//         .then(res => {
-//             let choice = res.choice;
-//             //call the proper function according to what is chosen
-//             switch (choice) {
-//                 case "VIEW_DEPARTMENTS":
-//                     viewDepartments();
-//                     break;
-//                 case "VIEW_EMPLOYEES":
-//                     viewEmployees();
-//                     break;
-//                 case "VIEW_ROLES":
-//                     viewRoles();
-//                     break;
-//                 case "ADD_ROLES":
-//                     addRoles();
-//                     break;
-//                 case "ADD_EMPLOYEE":
-//                     addEmployee();
-//                     break;
-//                 case "UPDATE_EMPLOYEE_ROLE":
-//                     updateEmployeeRole();
-//                     break;
-//                 case "QUIT":
-//                     quit();
-//                     break;
-//             }
-//         })
-//     // .catch(err => console.error(err));
-// }
+      //view departments
+      async function viewDepartments() {
+        const sql = 'SELECT * FROM department';
+        const result = await db.promise().query(sql);
+        console.log(result);
+        startPrompt();
+      };
 
-// //coming from db helper
+      //view roles
+      async function viewRoles() {
+        const sql = 'SELECT * FROM role';
+        const result = await db.promise().query(sql);
+        console.role(result);
+        startPrompt();
+      };
 
-// //VIEW EMPLOYEES
-// function viewDepartments() {
-//     db.findAllDepartments()
-//         .then(([rows]) => {
-//             let departments = rows;
-//             const departmentChoices = departments.map(({ id, department })({
-//                 name: department,
-//                 value: id
-//             }));
-//         });
-// }
-// init();
-// //need to do more complicated ones, some had prompts ie Employee by manager
+      //view employees
+      async function viewEmployees() {
+        const sql = 'SELECT * FROM employees';
+        const result = await db.promise().query(sql);
+        console.role(result);
+        startPrompt();
+      };
 
+      //view role
+      async function viewRoles() {
+        const sql = 'INSERT INTO department';
+        const result = await db.promise().query(sql);
+        console.role(result);
+        startPrompt();
+      };
+
+      //add a role
+      async function addRole() {
+        const sql = 'INSERT INTO role';
+        const result = await db.promise().query(sql);
+        console.role(result);
+        startPrompt();
+      };
+
+      //add a employee
+      async function addEmployee() {
+        const sql =
+          'INSERT INTO employee VALUES (first_name, last_name, title, department, salary, manager';
+        const result = await db.promise().query(sql);
+        console.role(result);
+        startPrompt();
+      };
+
+      //update a employee role     
+      async function updateEmployeeRole() {
+        const sql =
+          'UPDATE table_employee SET role WHERE role';
+        const result = await db.promise().query(sql);
+        console.role(result);
+        startPrompt();
+      };
+
+      // end     
+      async function quit() {
+        const result = await db.promise().query(sql);
+        console.role(result);
+        return results = "Ending Employee Tracker, enjoy your day"
+      };
+    });
+  }
+  initMenu();
