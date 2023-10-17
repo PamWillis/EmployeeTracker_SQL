@@ -5,8 +5,8 @@ VALUES
     ("Legal"),
     ( "Sales");
 
-INSERT INTO roles(title, salary, department_id)
-    VALUES  ("Sales Lead", 80000m 4);
+INSERT INTO role(title, salary, departmentID)
+    VALUES  ("Sales Lead", 80000, 4);
 
-    INSERT INTO employees(first_name, last_name, role_id, manager_id)
+    INSERT INTO employee(first_name, last_name, roleID, managerID)
     VALUES  ("Pam", "Willis", 1, NULL);
