@@ -55,9 +55,6 @@ function initMenu() {
         case "update an employee role":
           updateEmployeeRole();
           break;
-        case "Would you like to continue":
-          continueorEnd();
-          break;
         case "quit":
           quit();
       }
@@ -65,70 +62,81 @@ function initMenu() {
 
       //view departments
       async function viewDepartments() {
-        // CREATE VIEW dept_view AS 
-        const allDept = "SELECT * FROM department;"
-        const result = await db.promise().query(allDept);
-        console.log(result);
-
+        const allDept = "SELECT department.name FROM department;"
+        const [rows] = await db.promise().query(allDept);
+        // const text = JSON.parse(rows);
+        console.table(rows);
         initMenu();
       };
 
-    //   //view roles
-    //   async function viewRoles() {
-    //     const sql = 'SELECT * FROM role';
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     initMenu();
-    //   };
+      //view roles
+      async function viewRoles() {
+        const allRoles = 'SELECT role.title FROM role;';
+        const [rows] = await db.promise().query(allRoles);
+        console.table(rows);
+        initMenu();
+      };
 
-    //   //view employees
-    //   async function viewEmployees() {
-    //     const sql = 'SELECT * FROM employees';
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     initMenu();
-    //   };
+      //view employees
+      async function viewEmployees() {
+        const allEmploy = 'SELECT employee.first_name, employee.last_name FROM employee;';
+        const [rows] = await db.promise().query(allEmploy);
+        console.table(rows);
+        initMenu();
+      };
 
-    //   //view role
-    //   async function viewRoles() {
-    //     const sql = 'INSERT INTO department';
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     initMenu();
-    //   };
+      //add a department
+      async function addDepartment() {
+        //need a prompt for new name of department
+        inquirer.prompt({
+          name: "newDepartment",
+          message: "Name of new department?",
+          type: "input"
+      })
+      .then(async (answer) => {
+        console.log(answer.newDepartment)
+        const newDept = `INSERT INTO department(name) VALUES ("${answer.newDepartment}");`;
+        const mydept = await db.promise().query(newDept);
+        console.log("your department has been added");
+        initMenu();
+      })
+      };
 
-    //   //add a role
-    //   async function addRole() {
-    //     const sql = 'INSERT INTO role';
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     initMenu();
-    //   };
+      //add a role
+      async function addRole() {
+        // need a prompt for new role title
+        const newrole = 'INSERT INTO role(title) VALUES [?];';
+        const [rows] = await db.promise().query(newDept);
+        console.table(rows);
+        initMenu();
+      };
 
-    //   //add a employee
-    //   async function addEmployee() {
-    //     const sql =
-    //       'INSERT INTO employee VALUES (first_name, last_name, title, department, salary, manager';
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     initMenu();
-    //   };
+      //add a employee
+      async function addEmployee() {
+        //need a prompt for new employee first_name,last_name and salary choices for title, department and manager
+        const newEmp =
+          'INSERT INTO employee(first_name, last_name, title, department, salary, manager)  VALUES [?];';
+        const [row] = await db.promise().query(newEmp);
+        console.table(row);
+        initMenu();
+      };
 
-    //   //update a employee role     
-    //   async function updateEmployeeRole() {
-    //     const sql =
-    //       'UPDATE table_employee SET role WHERE role';
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     initMenu();
-    //   };
+      //   //update a employee role     
+      async function updateEmployeeRole() {
+        const chgRole =
+          'UPDATE employee SET role.id WHERE id IS [?];';
+        const [row] = await db.promise().query(chgRole);
+        console.table(row);
+        initMenu();
+      };
 
-    //   // end     
-    //   async function quit() {
-    //     const result = await db.promise().query(sql);
-    //     console.log(result);
-    //     return results = "Ending Employee Tracker, enjoy your day"
-    //   };
-    // });
-  })};
-  initMenu();
+      // end     
+      async function quit() {
+       
+        console.log("Ending Employee Tracker, enjoy your day");
+        process.exit() 
+      };
+    });
+};
+
+initMenu();
