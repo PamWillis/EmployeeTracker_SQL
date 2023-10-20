@@ -174,12 +174,13 @@ function initMenu() {
             message: 'Select Role for New Emmployee:'
           },
           {
-            name: "managerChoice",
+            name: "managerChoice", //create choice by selecting existing managers
             type: "list",
             choices: async () => {
               try {
-                const [rows0] = await db.promise().query("SELECT CONCAT(first_name, ' ', last_name) AS manager FROM employee WHERE roleID IN (SELECT id FROM role WHERE title = 'Manager');");
-                const choiceArray = rows0.map((row) => row.manager);
+                const [rows0] = await db.promise().query(`SELECT e1.last_name AS manager_name FROM employee e1
+                  JOIN employee e2 ON e1.id = e2.managerID WHERE e1.last_name = 'None'`);
+                const choiceArray = rows0.map((row) => row.manager_name);
                 choiceArray.push("None"); // Add "None" option if the employee doesn't have a manager
                 return choiceArray;
               } catch (error) {
@@ -199,27 +200,19 @@ function initMenu() {
             const roleID = rows1[0].id;
 
             // Fetch the manager ID from the database defined by role
-            const fetchManagerIdQuery = `SELECT id FROM employee WHERE managerID = "${answer.managerChoice}"`;
+            const fetchManagerIdQuery = `SELECT e.id FROM employee AS e LEFT JOIN employee AS m ON e.managerID = m.id WHERE m.last_name = "${answer.managerChoice}" OR e.managerID IS NULL`;
             const [rows2] = await db.promise().query(fetchManagerIdQuery);
             const mymanagerID = rows2[0].id;
 
-            //insert name, role, id in Select Statement for new employee
-            const newEmployee = `INSERT INTO role (first_name, last_name, roleID, managerID) VALUES ("${answer.newFirstName}", "${answer.newLastName}", 
-            (SELECT id FROM role WHERE title = "${answer.roleChoice}"), (SELECT id FROM manager WHERE name = "${answer.managerChoice}") )`;
+            // Prepare the INSERT statement with placeholders
+            const insertEmployeeQuery = `INSERT INTO employee (first_name, last_name, roleID, managerID) VALUES (?, ?, ?, ?)`;
 
-            //create new employee
-            const myEmployee = await db.promise().query(newEmployee);
+            // Define the parameter values for the new employee
+            const insertEmployeeParams = [answer.newFirstName, answer.newLastName, roleID, mymanagerID];
+
+            // Execute the INSERT statement with the parameter values
+            const myEmployee = await db.promise().query(insertEmployeeQuery, insertEmployeeParams);
             console.log("your new employee has been added");
-            
-
-
-
-
-
-
-
-
-
 
             initMenu();
 
@@ -228,22 +221,52 @@ function initMenu() {
 
       };
 
-      //   //update a employee role     
+      //   //update a employee role  
+
       async function updateEmployeeRole() {
-        const chgRole =
-          'UPDATE employee SET role.id WHERE id IS [?];';
-        const [row] = await db.promise().query(chgRole);
-        console.table(row);
-        initMenu();
-      };
+        //prompt to change Employee role)
+        inquirer.prompt([
+          {
+            name: "employees_full",
+            type: "list"
+            choices: () => {
 
-      // end     
-      async function quit() {
 
-        console.log("Ending Employee Tracker, enjoy your day");
-        process.exit()
-      };
-    });
+            }
+          },
+          {
+            name: "newRole",
+            type: "list",
+            choices: () => {
+              return new Promise(async (resolve, reject) => {
+                try {
+                  const [rows] = await db.promise().query("SELECT title FROM role;");
+                  const choiceArray = rows.map((row) => row.title);
+                  resolve(choiceArray);
+                } catch (error) {
+                  reject(error);
+                }
+              });
+            },
+            message: 'Select New Role for Employee:'
+          }
+        ]};
+
+
+      const chgRole =
+        'UPDATE employee SET role.id WHERE id IS [?];';
+      const [row] = await db.promise().query(chgRole);
+      console.table(row);
+      initMenu();
+    };
+
+  // end     
+  async function quit() {
+
+    console.log("Ending Employee Tracker, enjoy your day");
+    process.exit()
+  };
+});
 };
 
 // initMenu();
