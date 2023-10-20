@@ -3,10 +3,14 @@ VALUES
     ("Engineering"),
     ( "Finance"),
     ("Legal"),
-    ( "Sales");
+    ( "Sales"),
+    ("Manager");
+    
 
 INSERT INTO role(title, salary, departmentID)
-    VALUES  ("Sales Lead", 80000, 4);
+    VALUES  ("Manager", 99000, 5),
+    ("Sales Lead", 80000, 4);
 
     INSERT INTO employee(first_name, last_name, roleID, managerID)
-    VALUES  ("Pam", "Willis", 1, NULL);
+    VALUES  ("Frank", "Kane", 2, NULL),
+    ("Pam", "Willis", 1, NULL);
