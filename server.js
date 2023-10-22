@@ -19,7 +19,7 @@ function init() {
 
   //----------------------------------------------------------
 
-  // //functions for initial prompt that starts the run thru the questions
+  // //functions for prompt that starts the run thru the questions
   function initMenu() {
     inquirer.prompt(
       {
@@ -141,13 +141,13 @@ function init() {
               const [rows] = await db.promise().query(fetchDepartmentIdQuery);
               const departmentID = rows[0].id;
 
-               // Prepare the INSERT statement with placeholders
-               const insertRoleQuery = `INSERT INTO role (title, salary, departmentID) VALUES (?, ?, (SELECT id FROM department WHERE name = ?));`;
+              // Prepare the INSERT statement with placeholders
+              const insertRoleQuery = `INSERT INTO role (title, salary, departmentID) VALUES (?, ?, (SELECT id FROM department WHERE name = ?));`;
 
-               // Define the parameter values for the new role
+              // Define the parameter values for the new role
               const insertRoleParam = [answer.newTitle, answer.Salary, answer.departmentChoice];
 
-               // Execute the INSERT statement with the parameter values
+              // Execute the INSERT statement with the parameter values
               const [row] = await db.promise().query(insertRoleQuery, insertRoleParam);
 
               console.log("your new role has been added");
@@ -193,7 +193,7 @@ function init() {
                 try {
                   const [data] = await db.promise().query(`SELECT * FROM employee`);
                   console.log("this is data", data)
-                  const choiceArray = data.map((row) =>{return {name: row.first_name + ' ' + row.last_name, value: row.id}});
+                  const choiceArray = data.map((row) => { return { name: row.first_name + ' ' + row.last_name, value: row.id } });
                   console.log("this is choiceArray", choiceArray)
                   choiceArray.push("None"); // Add "None" option if the employee doesn't have a manager
                   return choiceArray;
@@ -218,7 +218,7 @@ function init() {
               const insertEmployeeQuery = `INSERT INTO employee (first_name, last_name, roleID, managerID) VALUES (?, ?, ?, ?)`;
 
               // Define the parameter values for the new employee
-              const insertEmployeeParams = [answer.newFirstName, answer.newLastName, roleID,answer.managerChoice];
+              const insertEmployeeParams = [answer.newFirstName, answer.newLastName, roleID, answer.managerChoice];
 
               // Execute the INSERT statement with the parameter values
               const myEmployee = await db.promise().query(insertEmployeeQuery, insertEmployeeParams);
@@ -293,8 +293,9 @@ function init() {
               initMenu();
             })
         };
+        //--------------------------------------------------------
 
-        // end     
+        // end  allows to quit out of application   
         async function quit() {
 
           console.log("Ending Employee Tracker, enjoy your day");
