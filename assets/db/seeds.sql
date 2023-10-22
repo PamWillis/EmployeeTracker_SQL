@@ -1,14 +1,16 @@
+
+
 INSERT INTO department(name)
 VALUES
     ("Engineering"),
     ( "Finance"),
     ("Legal"),
     ( "Sales"),
-    ("Manager");
+    ("Custodial");
     
 
 INSERT INTO role(title, salary, departmentID)
-    VALUES  ("Manager", 99000, 5),
+    VALUES  ("Manager", 99000, 3),
     ("Sales Lead", 80000, 4);
 
     INSERT INTO employee(first_name, last_name, roleID, managerID)
