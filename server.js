@@ -187,15 +187,15 @@ function init() {
               message: 'Select Role for New Emmployee:'
             },
             {
-              name: "managerChoice", //create choice by selecting existing managers
+              name: "managerChoice",
               type: "list",
               choices: async () => {
                 try {
                   const [data] = await db.promise().query(`SELECT * FROM employee`);
-                  console.log("this is data", data)
-                  const choiceArray = data.map((row) => { return { name: row.first_name + ' ' + row.last_name, value: row.id } });
-                  console.log("this is choiceArray", choiceArray)
-                  choiceArray.push("None"); // Add "None" option if the employee doesn't have a manager
+                  const choiceArray = data.map((row) => {
+                    return { name: row.first_name + ' ' + row.last_name, value: row.id };
+                  });
+                  choiceArray.push({ name: "None", value: null }); // Add "None" option if the employee doesn't have a manager
                   return choiceArray;
                 } catch (error) {
                   console.error(error);
